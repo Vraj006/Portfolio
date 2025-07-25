@@ -1,0 +1,35 @@
+services:
+  # Backend API Service
+  - type: web
+    name: vraj-portfolio-backend
+    env: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: EMAIL_HOST
+        value: smtp.gmail.com
+      - key: EMAIL_PORT
+        value: 587
+      - key: EMAIL_USER
+        fromService: vraj-portfolio-backend
+        fromEnvVar: EMAIL_USER
+      - key: EMAIL_PASS
+        fromService: vraj-portfolio-backend
+        fromEnvVar: EMAIL_PASS
+      - key: EMAIL_FROM
+        fromService: vraj-portfolio-backend
+        fromEnvVar: EMAIL_FROM
+      - key: EMAIL_TO
+        fromService: vraj-portfolio-backend
+        fromEnvVar: EMAIL_TO
+      - key: FRONTEND_URL
+        value: https://vraj-portfolio-2025.onrender.com
+      - key: RATE_LIMIT_WINDOW_MS
+        value: 900000
+      - key: RATE_LIMIT_MAX_REQUESTS
+        value: 5
