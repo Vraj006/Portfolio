@@ -107,30 +107,30 @@ const Experience = () => {
   };
 
   return (
-    <section id="experience" className="py-20 bg-white dark:bg-gray-900">
+    <section id="experience" className="py-12 sm:py-16 lg:py-20 bg-white dark:bg-gray-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
+        <div className="text-center mb-12 sm:mb-16">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
             My <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Journey</span>
           </h2>
-          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-lg sm:text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed px-4 sm:px-0">
             Beyond the resume - exploring the real impact, learnings, and growth from my experience at V-NEST
           </p>
         </div>
 
         {/* Experience Context */}
-        <div className="bg-gradient-to-r from-blue-500 to-purple-600 rounded-3xl p-8 text-white mb-12">
+        <div className="bg-gradient-to-r from-blue-500 to-purple-600 rounded-3xl p-6 sm:p-8 text-white mb-8 sm:mb-12">
           <div className="text-center">
-            <h3 className="text-2xl font-bold mb-4">Core Technical Team Member</h3>
-            <p className="text-lg mb-2">V-NEST, VIT Chennai Startup and Research Foundation</p>
+            <h3 className="text-xl sm:text-2xl font-bold mb-4">Core Technical Team Member</h3>
+            <p className="text-base sm:text-lg mb-2">V-NEST, VIT Chennai Startup and Research Foundation</p>
             <p className="text-sm opacity-90">April 2025 - Present | Chennai, India</p>
           </div>
         </div>
 
         {/* Interactive Tabs */}
-        <div className="flex justify-center mb-12">
-          <div className="flex space-x-2 bg-gray-100 dark:bg-gray-800 rounded-2xl p-2">
+        <div className="flex justify-center mb-8 sm:mb-12">
+          <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2 bg-gray-100 dark:bg-gray-800 rounded-2xl p-2 w-full sm:w-auto">
             {Object.entries(experienceData).map(([key, data]) => (
               <button
                 key={key}

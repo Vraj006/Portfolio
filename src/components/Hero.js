@@ -72,7 +72,7 @@ const Hero = () => {
   return (
     <section
       id="home"
-      className={`min-h-screen flex items-center justify-center relative overflow-hidden transition-all duration-500 ${isDark
+      className={`min-h-screen flex items-center justify-center relative overflow-hidden transition-all duration-500 pt-16 sm:pt-20 ${isDark
           ? 'bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900'
           : 'bg-gradient-to-br from-white via-blue-50 to-purple-100'
         }`}
@@ -132,12 +132,12 @@ const Hero = () => {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
           {/* Left Column - Main Content */}
-          <div className="text-center lg:text-left space-y-8">
+          <div className="text-center lg:text-left space-y-4 sm:space-y-6 lg:space-y-8">
             {/* Main Heading */}
-            <div className="space-y-6 mt-8">
-              <h1 className={`text-5xl md:text-6xl lg:text-7xl font-bold leading-tight ${isDark ? 'text-white drop-shadow-2xl' : 'text-gray-900 drop-shadow-lg'
+            <div className="space-y-3 sm:space-y-4 lg:space-y-6">
+              <h1 className={`text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold leading-tight ${isDark ? 'text-white drop-shadow-2xl' : 'text-gray-900 drop-shadow-lg'
                 }`}>
                 Hi, I'm{' '}
                 <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent animate-gradient drop-shadow-none">
@@ -145,7 +145,7 @@ const Hero = () => {
                 </span>
               </h1>
 
-              <div className={`text-2xl md:text-3xl lg:text-4xl font-semibold h-20 flex items-center ${isDark ? 'text-blue-300 drop-shadow-lg' : 'text-blue-700 drop-shadow-md'
+              <div className={`text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-semibold h-16 sm:h-18 lg:h-20 flex items-center justify-center lg:justify-start ${isDark ? 'text-blue-300 drop-shadow-lg' : 'text-blue-700 drop-shadow-md'
                 }`}>
                 <span className="border-r-3 border-current pr-3 animate-pulse">
                   {displayText}
@@ -154,7 +154,7 @@ const Hero = () => {
             </div>
 
             {/* Description */}
-            <div className={`text-lg md:text-xl leading-relaxed max-w-2xl space-y-2 ${isDark ? 'text-gray-300' : 'text-gray-700'
+            <div className={`text-base sm:text-lg md:text-xl leading-relaxed max-w-2xl mx-auto lg:mx-0 space-y-2 px-4 sm:px-0 ${isDark ? 'text-gray-300' : 'text-gray-700'
               }`}>
               <p>
                 3rd year B.Tech student at{' '}
@@ -169,49 +169,49 @@ const Hero = () => {
             </div>
 
             {/* Key Highlights */}
-            <div className="flex flex-wrap gap-4 justify-center lg:justify-start">
-              <div className={`flex items-center space-x-2 px-4 py-2 rounded-xl backdrop-blur-md transition-all duration-300 hover:scale-105 ${isDark
+            <div className="flex flex-wrap gap-2 sm:gap-3 lg:gap-4 justify-center lg:justify-start px-4 sm:px-0">
+              <div className={`flex items-center space-x-2 px-3 sm:px-4 py-2 rounded-xl backdrop-blur-md transition-all duration-300 hover:scale-105 ${isDark
                   ? 'bg-white/10 border border-white/20'
                   : 'bg-white/70 border border-gray-200/50 shadow-md'
                 }`}>
                 <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-                <span className={`text-sm font-medium ${isDark ? 'text-white' : 'text-gray-800'
+                <span className={`text-xs sm:text-sm font-medium ${isDark ? 'text-white' : 'text-gray-800'
                   }`}>3rd Year B.Tech</span>
               </div>
-              <div className={`flex items-center space-x-2 px-4 py-2 rounded-xl backdrop-blur-md transition-all duration-300 hover:scale-105 ${isDark
+              <div className={`flex items-center space-x-2 px-3 sm:px-4 py-2 rounded-xl backdrop-blur-md transition-all duration-300 hover:scale-105 ${isDark
                   ? 'bg-white/10 border border-white/20'
                   : 'bg-white/70 border border-gray-200/50 shadow-md'
                 }`}>
                 <div className="w-2 h-2 bg-blue-400 rounded-full animate-pulse"></div>
-                <span className={`text-sm font-medium ${isDark ? 'text-white' : 'text-gray-800'
+                <span className={`text-xs sm:text-sm font-medium ${isDark ? 'text-white' : 'text-gray-800'
                   }`}>AI/ML Specialist</span>
               </div>
-              <div className={`flex items-center space-x-2 px-4 py-2 rounded-xl backdrop-blur-md transition-all duration-300 hover:scale-105 ${isDark
+              <div className={`flex items-center space-x-2 px-3 sm:px-4 py-2 rounded-xl backdrop-blur-md transition-all duration-300 hover:scale-105 ${isDark
                   ? 'bg-white/10 border border-white/20'
                   : 'bg-white/70 border border-gray-200/50 shadow-md'
                 }`}>
                 <div className="w-2 h-2 bg-purple-400 rounded-full animate-pulse"></div>
-                <span className={`text-sm font-medium ${isDark ? 'text-white' : 'text-gray-800'
+                <span className={`text-xs sm:text-sm font-medium ${isDark ? 'text-white' : 'text-gray-800'
                   }`}>Full Stack Dev</span>
               </div>
             </div>
 
             {/* Enhanced CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start px-4 sm:px-0">
               <button
                 onClick={() => scrollToSection('#projects')}
-                className="group relative px-8 py-4 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 text-white font-bold rounded-2xl transition-all duration-500 transform hover:scale-105 shadow-2xl hover:shadow-purple-500/25 overflow-hidden"
+                className="group relative px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 text-white font-bold rounded-2xl transition-all duration-500 transform hover:scale-105 shadow-2xl hover:shadow-purple-500/25 overflow-hidden text-sm sm:text-base"
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-pink-600 via-purple-600 to-blue-600 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                 <span className="relative flex items-center justify-center space-x-2">
-                  <FaRocket className="group-hover:animate-bounce" />
+                  <FaRocket className="group-hover:animate-bounce text-sm sm:text-base" />
                   <span>Explore My Work</span>
                 </span>
               </button>
               <a
-                href="/assets/Vraj_Prajapati_Resume.pdf"
+                href="/assets/Vraj_Resume.pdf"
                 download="Vraj_Prajapati_Resume.pdf"
-                className={`group relative px-8 py-4 border-2 font-bold rounded-2xl transition-all duration-500 transform hover:scale-105 text-center overflow-hidden ${isDark
+                className={`group relative px-6 sm:px-8 py-3 sm:py-4 border-2 font-bold rounded-2xl transition-all duration-500 transform hover:scale-105 text-center overflow-hidden text-sm sm:text-base ${isDark
                     ? 'border-white/50 text-white hover:border-white backdrop-blur-md'
                     : 'border-gray-800/50 text-gray-800 hover:border-gray-800 backdrop-blur-md shadow-lg'
                   }`}
@@ -219,14 +219,14 @@ const Hero = () => {
                 <div className={`absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 ${isDark ? 'bg-white' : 'bg-gray-800'
                   }`}></div>
                 <span className="relative flex items-center justify-center space-x-2 group-hover:text-white">
-                  <FaDownload className="group-hover:animate-bounce" />
+                  <FaDownload className="group-hover:animate-bounce text-sm sm:text-base" />
                   <span>Download Resume</span>
                 </span>
               </a>
             </div>
 
             {/* Enhanced Social Links */}
-            <div className="flex justify-center lg:justify-start space-x-3">
+            <div className="flex justify-center lg:justify-start space-x-2 sm:space-x-3 px-4 sm:px-0">
               {[
                 { Icon: FaGithub, href: 'https://github.com/Vraj006', label: 'GitHub', color: 'hover:bg-gray-800' },
                 { Icon: FaLinkedin, href: 'https://www.linkedin.com/in/prajapati-vraj-094614288/', label: 'LinkedIn', color: 'hover:bg-blue-600' },
@@ -237,13 +237,13 @@ const Hero = () => {
                   href={social.href}
                   target={social.href.startsWith('mailto') ? '_self' : '_blank'}
                   rel="noopener noreferrer"
-                  className={`group relative p-4 rounded-2xl backdrop-blur-md transition-all duration-300 hover:scale-110 hover:-translate-y-1 ${isDark
+                  className={`group relative p-3 sm:p-4 rounded-2xl backdrop-blur-md transition-all duration-300 hover:scale-110 hover:-translate-y-1 ${isDark
                       ? 'bg-white/10 hover:bg-white/20 text-white border border-white/20'
                       : 'bg-white/60 hover:bg-white/80 text-gray-800 border border-gray-200/50 shadow-lg'
                     } ${social.color} hover:text-black`}
                   title={social.label}
                 >
-                  <social.Icon className="text-xl group-hover:animate-pulse" />
+                  <social.Icon className="text-lg sm:text-xl group-hover:animate-pulse" />
                   <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                     <span className={`text-xs font-medium px-2 py-1 rounded-md ${isDark ? 'bg-gray-800 text-white' : 'bg-gray-900 text-white'
                       }`}>
@@ -256,16 +256,16 @@ const Hero = () => {
           </div>
 
           {/* Right Column - Interactive Tech Stack Visualization */}
-          <div className="flex justify-center lg:justify-end">
+          <div className="flex justify-center lg:justify-end mt-8 lg:mt-0">
             <div className="relative">
               {/* Main Container */}
-              <div className="relative w-80 h-80 md:w-96 md:h-96">
+              <div className="relative w-64 h-64 sm:w-80 sm:h-80 md:w-96 md:h-96">
                 {/* Outer Rotating Ring */}
-                <div className={`absolute inset-0 rounded-full border-4 border-dashed animate-spin-slow ${isDark ? 'border-blue-400/30' : 'border-blue-600/40'
+                <div className={`absolute inset-0 rounded-full border-2 sm:border-4 border-dashed animate-spin-slow ${isDark ? 'border-blue-400/30' : 'border-blue-600/40'
                   }`}></div>
 
                 {/* Middle Ring */}
-                <div className={`absolute inset-6 rounded-full border-2 border-dotted animate-reverse-spin ${isDark ? 'border-purple-400/20' : 'border-purple-600/30'
+                <div className={`absolute inset-4 sm:inset-6 rounded-full border border-dotted sm:border-2 animate-reverse-spin ${isDark ? 'border-purple-400/20' : 'border-purple-600/30'
                   }`}></div>
 
                 {/* Central Tech Hub */}

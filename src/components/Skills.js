@@ -54,8 +54,10 @@ const Skills = () => {
   const SkillCard = ({ skill, index }) => {
     return (
       <div 
-        className="group relative bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-500 transform hover:-translate-y-2 border border-gray-100 dark:border-gray-700 hover:border-blue-300 dark:hover:border-blue-600 overflow-hidden"
-        style={{ animationDelay: `${index * 100}ms` }}
+        className="group relative bg-white dark:bg-gray-900 p-4 sm:p-6 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 hover:scale-105 border border-gray-100 dark:border-gray-700 overflow-hidden"
+        style={{
+          animationDelay: `${index * 100}ms`
+        }}
       >
         {/* Background Gradient */}
         <div 
@@ -66,13 +68,13 @@ const Skills = () => {
         />
         
         {/* Icon Container */}
-        <div className="relative flex items-center justify-center mb-4">
+        <div className="relative flex items-center justify-center mb-3 sm:mb-4">
           <div 
-            className="p-4 rounded-2xl transition-all duration-300 group-hover:scale-110 group-hover:rotate-6"
+            className="p-3 sm:p-4 rounded-2xl transition-all duration-300 group-hover:scale-110 group-hover:rotate-6"
             style={{ backgroundColor: `${skill.color}15` }}
           >
             <skill.icon 
-              className="text-3xl transition-all duration-300 group-hover:scale-110" 
+              className="text-2xl sm:text-3xl transition-all duration-300 group-hover:scale-110" 
               style={{ color: skill.color }} 
             />
           </div>
@@ -84,10 +86,10 @@ const Skills = () => {
         
         {/* Content */}
         <div className="relative text-center">
-          <h4 className="font-bold text-lg text-gray-900 dark:text-white mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-300">
+          <h4 className="font-bold text-base sm:text-lg text-gray-900 dark:text-white mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-300">
             {skill.name}
           </h4>
-          <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+          <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
             {skill.description}
           </p>
         </div>
@@ -99,37 +101,37 @@ const Skills = () => {
   };
 
   return (
-    <section id="skills" className="py-20 bg-gray-50 dark:bg-gray-800">
+    <section id="skills" className="py-12 sm:py-16 lg:py-20 bg-gray-50 dark:bg-gray-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
+        <div className="text-center mb-12 sm:mb-16">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
             My <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Skills</span>
           </h2>
-          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-lg sm:text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed px-4 sm:px-0">
             Showcasing my technical expertise and the tools I use to bring ideas to life
           </p>
         </div>
 
         {/* Skills Categories */}
-        <div className="space-y-16 mb-20">
+        <div className="space-y-12 sm:space-y-16 mb-12 sm:mb-20">
           {skillCategories.map((category, categoryIndex) => (
             <div key={category.title} className="">
               {/* Category Header */}
-              <div className="text-center mb-12">
-                <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl text-3xl mb-4 shadow-lg">
+              <div className="text-center mb-8 sm:mb-12">
+                <div className="inline-flex items-center justify-center w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl text-2xl sm:text-3xl mb-4 shadow-lg">
                   {category.icon}
                 </div>
-                <h3 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+                <h3 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-2">
                   {category.title}
                 </h3>
-                <p className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+                <p className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto px-4 sm:px-0">
                   {category.description}
                 </p>
               </div>
               
               {/* Skills Grid */}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
                 {category.skills.map((skill, skillIndex) => (
                   <SkillCard 
                     key={skill.name} 
