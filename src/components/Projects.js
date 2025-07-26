@@ -45,33 +45,34 @@ const Projects = () => {
     },
     {
       id: 3,
-      title: 'V-NEST Solveathon Portal',
-      description: 'Event registration and management portal for VIT Chennai\'s startup incubator hackathon events.',
-      longDescription: 'Built for V-NEST, VIT Chennai\'s official startup incubator, this portal handles event registrations, announcements, and participant management for hackathon events.',
-      technologies: ['React', 'Next.js', 'Tailwind CSS', 'Node.js', 'PostgreSQL'],
-      image: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80',
+      title: 'Solveathon Website',
+      description: 'Official website for Solveathon hackathon event with registration, announcements, and participant information.',
+      longDescription: 'The official website for Solveathon, a premier hackathon event. Features event information, registration system, timeline, sponsor showcase, and participant resources. Built with modern web technologies for optimal performance and user experience.',
+      technologies: ['React', 'Next.js', 'Tailwind CSS', 'Framer Motion', 'Node.js'],
+      image: 'https://images.unsplash.com/photo-1517180102446-f3ece451e9d8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80',
       liveUrl: 'https://solveathon.vnest.org/',
-      githubUrl: 'https://github.com/Vraj006',
+      githubUrl: null, // Private repository
       category: 'Frontend',
-      featured: false,
+      featured: true,
       highlights: [
-        'Responsive event registration UI',
-        'Real-time announcement system',
-        'Participant management dashboard',
-        'Modern Next.js architecture'
+        'Modern responsive design',
+        'Interactive event timeline',
+        'Sponsor showcase section',
+        'Smooth animations with Framer Motion',
+        'Registration integration'
       ]
     },
     {
-      id: 4,
+      id: 5,
       title: 'V-NEST Demo Portal',
       description: 'Comprehensive demo platform showcasing V-NEST\'s capabilities and startup ecosystem.',
       longDescription: 'A full-stack demonstration platform for V-NEST showcasing the incubator\'s services, startup portfolio, and application processes. Features a clean, professional design with comprehensive information architecture.',
       technologies: ['React', 'Next.js', 'Tailwind CSS', 'PostgreSQL', 'Docker'],
       image: 'https://images.unsplash.com/photo-1556761175-b413da4baf72?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80',
       liveUrl: 'https://demo.vnest.org/',
-      githubUrl: 'https://github.com/Vraj006',
+      githubUrl: null, // Private repository
       category: 'Full Stack',
-      featured: false,
+      featured: true,
       highlights: [
         'Professional startup showcase',
         'Docker containerization',
@@ -81,8 +82,33 @@ const Projects = () => {
     }
   ];
 
-  // Filter to only show Full Stack projects
-  const fullStackProjects = projects.filter(project => project.category === 'Full Stack');
+  // Filter to show featured projects and reorder them in specific order
+  const featuredProjects = projects
+    .filter(project => project.featured)
+    .sort((a, b) => {
+      // Define the exact order
+      const order = [
+        'Solveathon Website',
+        'V-NEST Demo Portal', 
+        'Finance Manager',
+        'Wanderlust (Airbnb Clone)'
+      ];
+      
+      const aIndex = order.indexOf(a.title);
+      const bIndex = order.indexOf(b.title);
+      
+      // If both projects are in the order array, sort by their position
+      if (aIndex !== -1 && bIndex !== -1) {
+        return aIndex - bIndex;
+      }
+      
+      // If only one is in the order array, prioritize it
+      if (aIndex !== -1) return -1;
+      if (bIndex !== -1) return 1;
+      
+      // If neither is in the order array, sort by id
+      return a.id - b.id;
+    });
   
   const [activeProject, setActiveProject] = useState('All');
   const categories = ['All'];
@@ -143,15 +169,17 @@ const Projects = () => {
               <FaExternalLinkAlt className="mr-2" />
               Live Demo
             </a>
-            <a
-              href={project.githubUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
-            >
-              <FaGithub className="mr-2" />
-              View Code
-            </a>
+            {project.githubUrl && (
+              <a
+                href={project.githubUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
+              >
+                <FaGithub className="mr-2" />
+                View Code
+              </a>
+            )}
           </div>
         </div>
       </div>
@@ -177,14 +205,14 @@ const Projects = () => {
             <div className="h-1 w-16 sm:w-24 bg-gradient-to-r from-blue-500 to-purple-600 mx-auto rounded-full mb-4 sm:mb-6"></div>
           </div>
           <p className="text-lg sm:text-xl text-gray-600 dark:text-gray-300 max-w-4xl mx-auto leading-relaxed px-4 sm:px-0">
-            Discover my latest full-stack applications showcasing cutting-edge technologies,
-            innovative solutions, and seamless user experiences.
+            Discover my featured projects showcasing cutting-edge technologies,
+            innovative solutions, and seamless user experiences across full-stack and frontend development.
           </p>
         </div>
 
         {/* Projects Grid */}
         <div className="grid md:grid-cols-2 gap-6 sm:gap-8 lg:gap-10">
-          {fullStackProjects.map((project, index) => (
+          {featuredProjects.map((project, index) => (
             <div
               key={project.id}
               className={`group bg-white/80 dark:bg-gray-800/90 backdrop-blur-sm rounded-3xl shadow-2xl overflow-hidden hover:shadow-3xl transition-all duration-500 transform hover:-translate-y-2 hover:scale-[1.02] ${
@@ -258,15 +286,17 @@ const Projects = () => {
                     >
                       <FaExternalLinkAlt className="text-sm group-hover/link:scale-110 transition-transform duration-300" />
                     </a>
-                    <a
-                      href={project.githubUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="group/link flex items-center justify-center w-10 h-10 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-900 hover:text-white dark:hover:bg-white dark:hover:text-gray-900 transition-all duration-300 hover:scale-110"
-                      title="View Code"
-                    >
-                      <FaGithub className="text-sm group-hover/link:scale-110 transition-transform duration-300" />
-                    </a>
+                    {project.githubUrl && (
+                      <a
+                        href={project.githubUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="group/link flex items-center justify-center w-10 h-10 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-900 hover:text-white dark:hover:bg-white dark:hover:text-gray-900 transition-all duration-300 hover:scale-110"
+                        title="View Code"
+                      >
+                        <FaGithub className="text-sm group-hover/link:scale-110 transition-transform duration-300" />
+                      </a>
+                    )}
                   </div>
                   <button
                     onClick={() => setSelectedProject(project)}
