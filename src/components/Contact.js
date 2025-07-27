@@ -30,6 +30,46 @@ const Contact = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     
+    // Client-side validation
+    const errors = [];
+    
+    if (!formData.name.trim()) {
+      errors.push('Name is required');
+    } else if (formData.name.trim().length > 100) {
+      errors.push('Name must be less than 100 characters');
+    } else if (!/^[a-zA-Z\s\.'\-]+$/.test(formData.name.trim())) {
+      errors.push('Name can only contain letters, spaces, periods, apostrophes, and hyphens');
+    }
+    
+    if (!formData.email.trim()) {
+      errors.push('Email is required');
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email.trim())) {
+      errors.push('Please provide a valid email address');
+    }
+    
+    if (!formData.subject.trim()) {
+      errors.push('Subject is required');
+    } else if (formData.subject.trim().length > 200) {
+      errors.push('Subject must be less than 200 characters');
+    }
+    
+    if (!formData.message.trim()) {
+      errors.push('Message is required');
+    } else if (formData.message.trim().length < 5) {
+      errors.push('Message must be at least 5 characters');
+    } else if (formData.message.trim().length > 2000) {
+      errors.push('Message must be less than 2000 characters');
+    }
+    
+    if (errors.length > 0) {
+      setSubmitStatus({ 
+        loading: false, 
+        success: false, 
+        error: errors.join('. ') 
+      });
+      return;
+    }
+    
     setSubmitStatus({ loading: true, success: false, error: null });
     
     try {
@@ -52,14 +92,38 @@ const Contact = () => {
           setSubmitStatus({ loading: false, success: false, error: null });
         }, 5000);
       } else {
-        throw new Error(data.message || 'Failed to send message');
+        // Handle specific validation errors
+        let errorMessage = data.message || 'Failed to send message';
+        
+        // If there are validation errors, show them
+        if (data.errors && Array.isArray(data.errors)) {
+          errorMessage = data.errors.map(err => err.msg).join('. ');
+        }
+        
+        throw new Error(errorMessage);
       }
     } catch (error) {
       console.error('Contact form error:', error);
+      
+      // More user-friendly error messages
+      let errorMessage = 'Failed to send message. Please try again or contact me directly.';
+      
+      if (error.message) {
+        if (error.message.includes('validation') || error.message.includes('required')) {
+          errorMessage = error.message;
+        } else if (error.message.includes('network') || error.message.includes('fetch')) {
+          errorMessage = 'Network error. Please check your connection and try again.';
+        } else if (error.message.includes('timeout')) {
+          errorMessage = 'Request timed out. Please try again.';
+        } else {
+          errorMessage = error.message;
+        }
+      }
+      
       setSubmitStatus({ 
         loading: false, 
         success: false, 
-        error: error.message || 'Failed to send message. Please try again or contact me directly.' 
+        error: errorMessage
       });
     }
   };
