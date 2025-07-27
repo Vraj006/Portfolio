@@ -73,15 +73,51 @@ const Contact = () => {
     setSubmitStatus({ loading: true, success: false, error: null });
     
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL || 'http://localhost:5000'}/api/contact/send`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData)
-      });
+      const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+      console.log('API URL:', apiUrl);
+      console.log('Sending contact form to:', `${apiUrl}/api/contact/send`);
+      console.log('Form data:', formData);
+      
+      // First, test backend connectivity
+      console.log('Testing backend connectivity...');
+      try {
+        const healthResponse = await fetch(`${apiUrl}/api/health`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          }
+        });
+        console.log('Health check status:', healthResponse.status);
+        if (!healthResponse.ok) {
+          throw new Error(`Backend health check failed: ${healthResponse.status}`);
+        }
+      } catch (healthError) {
+        console.error('Backend connectivity test failed:', healthError);
+        throw new Error('Cannot connect to server. Please try again later.');
+      }
+      
+      // Create a timeout promise
+      const timeoutPromise = new Promise((_, reject) => 
+        setTimeout(() => reject(new Error('Request timed out after 30 seconds')), 30000)
+      );
+      
+      // Race between fetch and timeout
+      const response = await Promise.race([
+        fetch(`${apiUrl}/api/contact/send`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(formData)
+        }),
+        timeoutPromise
+      ]);
+      
+      console.log('Response status:', response.status);
+      console.log('Response headers:', response.headers);
       
       const data = await response.json();
+      console.log('Response data:', data);
       
       if (response.ok) {
         setSubmitStatus({ loading: false, success: true, error: null });
@@ -104,17 +140,23 @@ const Contact = () => {
       }
     } catch (error) {
       console.error('Contact form error:', error);
+      console.error('Error type:', typeof error);
+      console.error('Error name:', error.name);
+      console.error('Error message:', error.message);
+      console.error('Error stack:', error.stack);
       
       // More user-friendly error messages
       let errorMessage = 'Failed to send message. Please try again or contact me directly.';
       
       if (error.message) {
-        if (error.message.includes('validation') || error.message.includes('required')) {
+        if (error.message.includes('timed out')) {
+          errorMessage = 'Request timed out after 30 seconds. Please check your connection and try again.';
+        } else if (error.message.includes('validation') || error.message.includes('required')) {
           errorMessage = error.message;
-        } else if (error.message.includes('network') || error.message.includes('fetch')) {
+        } else if (error.message.includes('network') || error.message.includes('fetch') || error.name === 'TypeError') {
           errorMessage = 'Network error. Please check your connection and try again.';
-        } else if (error.message.includes('timeout')) {
-          errorMessage = 'Request timed out. Please try again.';
+        } else if (error.message.includes('Failed to fetch')) {
+          errorMessage = 'Cannot connect to server. Please check if the backend is running and try again.';
         } else {
           errorMessage = error.message;
         }
