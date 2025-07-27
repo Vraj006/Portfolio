@@ -10,19 +10,28 @@ const contactRoutes = require('./routes/contact');
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+// Trust proxy settings for deployment platforms like Render, Heroku, etc.
+app.set('trust proxy', 1);
+
 // Security middleware
 app.use(helmet());
 
-// Rate limiting
+// Rate limiting - More lenient for better user experience
 const limiter = rateLimit({
   windowMs: parseInt(process.env.RATE_LIMIT_WINDOW_MS) || 15 * 60 * 1000, // 15 minutes
-  max: parseInt(process.env.RATE_LIMIT_MAX_REQUESTS) || 5, // limit each IP to 5 requests per windowMs
+  max: parseInt(process.env.RATE_LIMIT_MAX_REQUESTS) || 10, // Increased to 10 requests per windowMs
   message: {
     error: 'Too many requests from this IP, please try again later.',
     retryAfter: '15 minutes'
   },
   standardHeaders: true,
   legacyHeaders: false,
+  // Skip rate limiting for successful requests to be more user-friendly
+  skipSuccessfulRequests: false,
+  // Custom key generator that handles proxy headers properly
+  keyGenerator: (req) => {
+    return req.ip || req.connection.remoteAddress || 'unknown';
+  }
 });
 
 // CORS configuration

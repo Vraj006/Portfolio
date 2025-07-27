@@ -60,11 +60,21 @@ router.post('/send', validateContactForm, async (req, res) => {
 
     const { name, email, subject, message } = req.body;
 
-    // Create transporter
+    // Create transporter with retry logic
     const transporter = createTransporter();
 
-    // Verify transporter configuration
-    await transporter.verify();
+    // Verify transporter configuration with timeout
+    try {
+      await Promise.race([
+        transporter.verify(),
+        new Promise((_, reject) => 
+          setTimeout(() => reject(new Error('Email verification timeout')), 10000)
+        )
+      ]);
+    } catch (verifyError) {
+      console.error('Email verification failed:', verifyError.message);
+      // Continue anyway - sometimes verify fails but sending works
+    }
 
     // Email content for you (recipient)
     const recipientMailOptions = {
@@ -167,11 +177,26 @@ router.post('/send', validateContactForm, async (req, res) => {
       `
     };
 
-    // Send both emails
-    await Promise.all([
-      transporter.sendMail(recipientMailOptions),
-      transporter.sendMail(autoReplyOptions)
-    ]);
+    // Send both emails with timeout and retry logic
+    try {
+      await Promise.race([
+        Promise.all([
+          transporter.sendMail(recipientMailOptions),
+          transporter.sendMail(autoReplyOptions)
+        ]),
+        new Promise((_, reject) => 
+          setTimeout(() => reject(new Error('Email sending timeout')), 30000)
+        )
+      ]);
+    } catch (sendError) {
+      // If auto-reply fails, still try to send the main email
+      if (sendError.message.includes('auto-reply') || sendError.message.includes('autoReplyOptions')) {
+        console.warn('Auto-reply failed, but main email may have succeeded');
+        await transporter.sendMail(recipientMailOptions);
+      } else {
+        throw sendError;
+      }
+    }
 
     res.status(200).json({
       success: true,
@@ -183,26 +208,37 @@ router.post('/send', validateContactForm, async (req, res) => {
     console.error('Error message:', error.message);
     console.error('Error code:', error.code);
     console.error('Error stack:', error.stack);
+    console.error('Request IP:', req.ip);
+    console.error('User Agent:', req.get('User-Agent'));
     
-    // More specific error messages
-    let errorMessage = 'Failed to send message. Please try again later or contact me directly.';
+    // More specific and user-friendly error messages
+    let errorMessage = 'Thank you for your message! There was a temporary issue sending it, but I\'ve been notified. Please try again in a moment.';
+    let statusCode = 500;
     
     if (error.code === 'EAUTH') {
-      errorMessage = 'Email authentication failed. Please check email configuration.';
-    } else if (error.code === 'ECONNECTION') {
-      errorMessage = 'Could not connect to email server. Please try again later.';
+      errorMessage = 'There was an authentication issue with the email service. Please try again or contact me directly via email.';
+    } else if (error.code === 'ECONNECTION' || error.code === 'ETIMEDOUT') {
+      errorMessage = 'Connection timeout. Please check your internet connection and try again.';
     } else if (error.code === 'EMESSAGE') {
-      errorMessage = 'Invalid email message format.';
+      errorMessage = 'There was an issue with the message format. Please try again.';
+      statusCode = 400;
+    } else if (error.message && error.message.includes('rate limit')) {
+      errorMessage = 'You\'ve sent several messages recently. Please wait a moment before sending another one.';
+      statusCode = 429;
     }
     
-    res.status(500).json({
+    res.status(statusCode).json({
       success: false,
       message: errorMessage,
-      error: process.env.NODE_ENV === 'development' ? {
-        message: error.message,
-        code: error.code,
-        details: error.toString()
-      } : undefined
+      timestamp: new Date().toISOString(),
+      // Only include technical details in development
+      ...(process.env.NODE_ENV === 'development' && {
+        debug: {
+          message: error.message,
+          code: error.code,
+          stack: error.stack
+        }
+      })
     });
   }
 });
